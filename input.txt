@@ -1,0 +1,9 @@
+number = 2 + 1
+
+if (b) {
+    c = a
+}
+
+function () {
+    d = 1
+}
