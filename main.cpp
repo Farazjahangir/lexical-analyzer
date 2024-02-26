@@ -7,7 +7,7 @@ using namespace std;
 // Function to check if the given character is a punctuator
 bool isPunctuator(char ch)
 {
-    char punctuators[] = {'+', '-', '*', '/', ',', ';', '>', '<', '=', '(', ')', '[', ']', '{', '}', '&', '|', '!', '_'};
+    char punctuators[] = {'+', '-', '*', '/', ',', ';', '>', '<', '=', '(', ')', '[', ']', '{', '}', '&', '|'};
     for (char p : punctuators)
     {
         if (ch == p)
@@ -21,7 +21,7 @@ bool isPunctuator(char ch)
 // Function to check if the given string is a keyword
 bool isKeyword(const string &str)
 {
-    string keywords[] = {"if", "else", "while", "do", "break", "continue", "int", "double", "float", "return", "char", "case", "long", "short", "typedef", "switch", "unsigned", "void", "static", "struct", "sizeof", "volatile", "typedef", "enum", "const", "union", "extern", "bool"};
+    string keywords[] = {"if", "else", "while", "do", "break", "continue", "int", "double", "float", "return", "char", "case", "long", "switch", "unsigned", "void", "static", "struct", "enum", "const", "bool", "isalpha", "isalnum", "int", "function", "print", "elseif"};
     for (const string &keyword : keywords)
     {
         if (str == keyword)
@@ -35,27 +35,37 @@ bool isKeyword(const string &str)
 // Function to check if the given string is a valid identifier
 bool isValidIdentifier(const string &str)
 {
-    if (!isalpha(str[0]) && str[0] != '_')
+    const int size = str.size();
+    bool numFound = false;
+    if (!isalpha(str[0]) && str[0] != '_') // Check if the first character is an alphabet or underscore
     {
         return false;
     }
-    for (char c : str)
+    for (int i = 1; i < size; i++)  // Start from the second character
     {
-        if (!isalnum(c) && c != '_')
+        if (!isalnum(str[i]) && str[i] != '_') // Check if each character is alphanumeric or underscore
         {
             return false;
         }
+        // if (i == size - 1 && isdigit(str[i])) { // If it's the last character and it's a number
+        //     return true; // Allow numbers at the end
+        // }
+        if (isdigit(str[i]) && i != size - 1) {
+            numFound = true;
+        }
+        if (numFound && isalpha(str[i])) {
+            return false;
+        } 
     }
     return true;
 }
-
 // Function to check if the given character is an operator
-bool isOperator(char ch)
+bool isOperator(const string &str)
 {
-    char operators[] = {'+', '-', '*', '/', '>', '<', '=', '|', '&', '!'};
-    for (char op : operators)
+    string operators[] = {"+", "-", "*", "/", ">", "<", "=", "|", "&", "!", "==", "!=", "&&", "+="};
+    for (const string &op : operators)
     {
-        if (ch == op)
+        if (str == op)
         {
             return true;
         }
@@ -76,6 +86,40 @@ bool isNumber(const string &str)
     return true;
 }
 
+string checkForOperator(char ch, int size, int &i, string expression)
+{
+    if (isOperator(string(1, ch)))
+    {
+        // Check for multi-character operators
+        string multiOp(1, ch); // Start with the current character
+        int j = i + 1;
+        while (j < size)
+        {
+            multiOp += expression[j]; // Add the next character
+            if (!isOperator(multiOp))
+            {
+                multiOp.pop_back();
+                break; // Stop if the current sequence is not an operator
+            }
+            j++;
+        }
+        i = j - 1;
+        // if (isOperator(multiOp))
+        // {
+        //     cout << "IF" << endl;
+        //     cout << multiOp << " IS AN multi OPERATOR" << endl;
+        //     i = j - 1; // Move the index to the end of the multi-character operator
+        // }
+        // else
+        // {
+        //     cout << "Else" << endl;
+        //     cout << ch << " IS AN OPERATOR" << endl; // Treat single character as an operator
+        // }
+        return multiOp;
+    }
+    return "";
+}
+
 // Function to parse the expression and identify tokens
 void parse(const string &expression)
 {
@@ -84,7 +128,7 @@ void parse(const string &expression)
     for (int i = 0; i < size; ++i)
     {
         char ch = expression[i];
-        // cout << "INDEX ===> " << i << " Char ====> " << ch << endl;
+
         if (isspace(ch) || isPunctuator(ch) || i == size - 1)
         {
             if (!isspace(ch) && !isPunctuator(ch) && i == size - 1)
@@ -93,7 +137,6 @@ void parse(const string &expression)
             }
             if (!token.empty())
             {
-                // cout << "TOKEN ==>" << token << endl;
                 if (isKeyword(token))
                 {
                     cout << token << " IS A KEYWORD" << endl;
@@ -112,13 +155,14 @@ void parse(const string &expression)
                 }
                 token.clear();
             }
-            if (isOperator(ch))
+            const string isSingleOrMultiCharOp = checkForOperator(ch, size, i, expression);
+            if (isSingleOrMultiCharOp != "")
             {
-                cout << ch << " IS AN OPERATOR" << endl;
+                cout << isSingleOrMultiCharOp << " is a operator" << endl;
             }
-           else if (isPunctuator(ch))
+            else if (isPunctuator(ch))
             {
-                cout << ch << " IS AN Symbol" << endl;
+                cout << ch << " IS A Symbol" << endl;
             }
         }
         else
