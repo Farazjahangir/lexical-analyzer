@@ -1,14 +1,16 @@
-int c
-int a = 1 
+int c,12a
+int a = 1.1
 c = a + 1
 
 if (c == 2) {
     print("Hello World")
 }
-else {
-    print("Hello Class")
-}
 
 function() {
     print("Hello Function")
 }
+
+"abcd"
+===
+= ==
+==
