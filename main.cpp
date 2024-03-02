@@ -21,7 +21,7 @@ bool isPunctuator(char ch)
 // Function to check if the given string is a keyword
 bool isKeyword(const string &str)
 {
-    string keywords[] = {"if", "else", "while", "do", "break", "continue", "int", "double", "float", "return", "char", "case", "long", "switch", "unsigned", "void", "static", "struct", "enum", "const", "bool", "isalpha", "isalnum", "int", "function", "print", "elseif"};
+    string keywords[] = {"if", "else", "while", "do", "break", "continue", "int", "double", "float", "return", "char", "case", "switch", "void", "const", "bool","int", "function", "print"};
     for (const string &keyword : keywords)
     {
         if (str == keyword)
