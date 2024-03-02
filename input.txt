@@ -1,20 +1,14 @@
-int a,b,c,result
-a = 1
-b= 2
-c=3
-result = a + b
-result += c
+int c
+int a = 1 
+c = a + 1
 
-if (a = 5) {
-    a = 5
-}
-elseif (a > 6) {
-    a = 6
+if (c == 2) {
+    print("Hello World")
 }
 else {
-    a = 4
+    print("Hello Class")
 }
 
-function sum(a, b) {
-    return a + b
+function() {
+    print("Hello Function")
 }

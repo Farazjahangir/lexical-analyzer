@@ -41,7 +41,7 @@ bool isValidIdentifier(const string &str)
     {
         return false;
     }
-    for (int i = 1; i < size; i++)  // Start from the second character
+    for (int i = 1; i < size; i++) // Start from the second character
     {
         if (!isalnum(str[i]) && str[i] != '_') // Check if each character is alphanumeric or underscore
         {
@@ -50,12 +50,14 @@ bool isValidIdentifier(const string &str)
         // if (i == size - 1 && isdigit(str[i])) { // If it's the last character and it's a number
         //     return true; // Allow numbers at the end
         // }
-        if (isdigit(str[i]) && i != size - 1) {
+        if (isdigit(str[i]) && i != size - 1)
+        {
             numFound = true;
         }
-        if (numFound && isalpha(str[i])) {
+        if (numFound && isalpha(str[i]))
+        {
             return false;
-        } 
+        }
     }
     return true;
 }
@@ -125,11 +127,30 @@ void parse(const string &expression)
 {
     string token;
     const int size = expression.size();
+    bool insideQuotes = false; // Flag to track if currently inside quotes
+
     for (int i = 0; i < size; ++i)
     {
         char ch = expression[i];
+        if (ch == '"' || ch == '\'') // Check if it's the start or end of a quoted string
+        {
+            if (!insideQuotes)
+            {
+                cout << ch << " is a quote" << endl;
+            }
+            else
+            {
+                if (!token.empty())
+                {
+                    cout << token << " is a string" << endl;
+                    token.clear();
+                }
+                cout << ch << " is a quote" << endl;
+            }
+            insideQuotes = !insideQuotes; // Toggle the flag
+        }
 
-        if (isspace(ch) || isPunctuator(ch) || i == size - 1)
+        else if ((isspace(ch) || isPunctuator(ch) || i == size - 1) && !insideQuotes)
         {
             if (!isspace(ch) && !isPunctuator(ch) && i == size - 1)
             {
