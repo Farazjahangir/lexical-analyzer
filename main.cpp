@@ -7,7 +7,24 @@ using namespace std;
 // Function to check if the given character is a punctuator
 bool isPunctuator(char ch)
 {
-    char punctuators[] = {'+', '-', '*', '/', ',', ';', '>', '<', '=', '(', ')', '[', ']', '{', '}', '&', '|'};
+    char punctuators[] = {
+        '+', 
+        '-', 
+        '*', 
+        '/', 
+        ',', 
+        ';', 
+        '>', 
+        '<', 
+        '=', 
+        '(', 
+        ')', 
+        '[', 
+        ']', 
+        '{', 
+        '}', 
+        '&', 
+        '|'};
     for (char p : punctuators)
     {
         if (ch == p)
@@ -21,7 +38,29 @@ bool isPunctuator(char ch)
 // Function to check if the given string is a keyword
 bool isKeyword(const string &str)
 {
-    string keywords[] = {"if", "else", "while", "do", "break", "continue", "int", "double", "float", "return", "char", "case", "switch", "void", "const", "bool","int", "function", "print"};
+    string keywords[] = {
+        "if", 
+        "else", 
+        "while", 
+        "do", 
+        "break", 
+        "continue", 
+        "int", 
+        "double", 
+        "float", 
+        "return", 
+        "char", 
+        "case", 
+        "switch", 
+        "void", 
+        "const", 
+        "bool", 
+        "int", 
+        "function", 
+        "print",
+        "string"
+        };
+
     for (const string &keyword : keywords)
     {
         if (str == keyword)
@@ -43,7 +82,7 @@ bool isValidIdentifier(const string &str)
     }
     for (int i = 1; i < size; i++) // Start from the second character
     {
-        if (!isalnum(str[i]) && str[i] != '_') // Check if each character is alphanumeric or underscore
+        if (!isalnum(str[i]) && str[i] != '_') // if current character is not alphanumeric or underscore
         {
             return false;
         }
@@ -136,18 +175,21 @@ void parse(const string &expression)
         {
             if (!insideQuotes)
             {
-                cout << "\033[1;32m" << ch << "\033[0m" << " -> is a Quotation Marks" << endl;
+                cout << "\033[1;32m" << ch << "\033[0m"
+                     << " -> is a Quotation Marks" << endl;
                 // cout << ch << " is a quote" << endl;
             }
             else
             {
                 if (!token.empty())
                 {
-                    cout << "\033[1;32m" << token << "\033[0m" << " -> is a String" << endl;
+                    cout << "\033[1;32m" << token << "\033[0m"
+                         << " -> is a String" << endl;
                     // cout << token << " is a string" << endl;
                     token.clear();
                 }
-                cout << "\033[1;32m" << ch << "\033[0m" << " -> is a Quotation Marks" << endl;
+                cout << "\033[1;32m" << ch << "\033[0m"
+                     << " -> is a Quotation Marks" << endl;
                 // cout << ch << " is a quote" << endl;
             }
             insideQuotes = !insideQuotes; // Toggle the flag
@@ -163,22 +205,26 @@ void parse(const string &expression)
             {
                 if (isKeyword(token))
                 {
-                    cout << "\033[1;32m" << token << "\033[0m" << " -> is a Keyword" << endl;
+                    cout << "\033[1;32m" << token << "\033[0m"
+                         << " -> is a Keyword" << endl;
                     // cout << token << " IS A KEYWORD" << endl;
                 }
                 else if (isNumber(token))
                 {
-                    cout << "\033[1;32m" << token << "\033[0m" << " -> is a Number" << endl;
+                    cout << "\033[1;32m" << token << "\033[0m"
+                         << " -> is a Number" << endl;
                     // cout << token << " IS A NUMBER" << endl;
                 }
                 else if (isValidIdentifier(token))
                 {
-                    cout << "\033[1;32m" << token << "\033[0m" << " -> is a valid Indetifier" << endl;
+                    cout << "\033[1;32m" << token << "\033[0m"
+                         << " -> is a valid Indetifier" << endl;
                     // cout << token << " IS A VALID IDENTIFIER" << endl;
                 }
                 else
                 {
-                    cout << "\033[1;31m" << token << "\033[0m" << " -> is a not a valid Indentifier" << endl;
+                    cout << "\033[1;31m" << token << "\033[0m"
+                         << " -> is a not a valid Indentifier" << endl;
                     // cout << token << " IS NOT A VALID IDENTIFIER" << endl;
                 }
                 token.clear();
@@ -186,12 +232,14 @@ void parse(const string &expression)
             const string isSingleOrMultiCharOp = checkForOperator(ch, size, i, expression);
             if (isSingleOrMultiCharOp != "")
             {
-                cout << "\033[1;32m" << isSingleOrMultiCharOp << "\033[0m" << " -> is a Operator" << endl;   
+                cout << "\033[1;32m" << isSingleOrMultiCharOp << "\033[0m"
+                     << " -> is a Operator" << endl;
                 // cout << isSingleOrMultiCharOp << " is a operator" << endl;
             }
             else if (isPunctuator(ch))
             {
-                cout << "\033[1;32m" << ch << "\033[0m" << " -> is a Symbol" << endl;   
+                cout << "\033[1;32m" << ch << "\033[0m"
+                     << " -> is a Symbol" << endl;
                 // cout << ch << " IS A Symbol" << endl;
             }
         }
@@ -207,7 +255,7 @@ int main()
     string filename;
     cout << "Enter the name of the file: ";
     cin >> filename;
-
+    cout << endl;
     ifstream file(filename);
 
     if (!file.is_open())
